@@ -69,7 +69,13 @@ function createEventListeners() {
 
 /* verify acres text box entry is a positive number */
 function verifyAcres() {
-   testFormCompleteness();      
+   try {
+      if (!(acresBox.value > 0)) throw "Enter a positive acreage";
+      testFormCompleteness();  
+   } catch(error) {
+      messageElement.innerHTML = error;
+      messageHeadElement.innerHTML = "";
+   }  
 }
 
 /* verify at least one crops checkbox is checked */
@@ -79,7 +85,14 @@ function verifyCrops() {
 
 /* verify months text box entry is between 1 and 12 */
 function verifyMonths() {
-   testFormCompleteness();
+   try {
+      if (!(monthsBox.value >= 1 && monthsBox.value <= 12))
+         throw "Enter months between 1 and 12"
+      testFormCompleteness();
+   } catch(error) {
+      messageElement.innerHTML = error;
+      messageHeadElement.innerHTML = "";
+   }
 }
 
 /* verify that a fuel option button is selected */
@@ -97,7 +110,7 @@ function testFormCompleteness() {
 /* generate tractor recommendation based on user selections */
 function createRecommendation() {
    if (acresBox.value <= 5000) { // 5000 acres or less, no crop test needed
-window.alert("First if block for " + acresBox.value + " acres");
+
       if (monthsBox.value >= 10) { // 10+ months of farming per year
          messageHeadElement.innerHTML = "E3250";
          messageElement.innerHTML = E3250Desc;  
@@ -106,7 +119,7 @@ window.alert("First if block for " + acresBox.value + " acres");
          messageElement.innerHTML = E2600Desc;  
       }
    } else { // more than 5000 acres
-windows.alert("Else block for " + acresBox.value + " acres");
+
       if (monthsBox.value <= 9) { // 9 or fewer months per year, no crop test needed
          messageHeadElement.innerHTML = "W1205";
          messageElement.innerHTML = W1205Desc;
@@ -124,7 +137,7 @@ windows.alert("Else block for " + acresBox.value + " acres");
    if (document.getElementById("E85").checked) { // add suffix to model name based on fuel choice
       messageHeadElement.innerHTML += "E";
    } else if (document.getElementById("biodiesel").checked) {
-      messageHeadElement.innerHTML = "B";
+      messageHeadElement.innerHTML += "B";
    } else {
       messageHeadElement.innerHTML += "D";  
    }
